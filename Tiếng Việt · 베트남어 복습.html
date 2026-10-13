@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tiếng Việt · 베트남어 복습</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#fff6e5; --card:#ffffff; --ink:#2b2340; --muted:#6b6485;
+  --accent:#ff6b6b; --accent2:#4d7cfe; --good:#1fb36b; --bad:#e5484d;
+  --line:#2b2340; --chip:#ffe08a; --shadow:#2b2340;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1b1730; --card:#2a2447; --ink:#fff4dc; --muted:#b9b1d6;
+    --accent:#ff7b7b; --accent2:#7ea2ff; --good:#3ddc97; --bad:#ff6b70;
+    --line:#fff4dc; --chip:#5b4a1f; --shadow:#000;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1b1730; --card:#2a2447; --ink:#fff4dc; --muted:#b9b1d6;
+  --accent:#ff7b7b; --accent2:#7ea2ff; --good:#3ddc97; --bad:#ff6b70;
+  --line:#fff4dc; --chip:#5b4a1f; --shadow:#000;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Baloo 2","Segoe UI",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  background-image:radial-gradient(var(--chip) 1.5px,transparent 1.5px);background-size:26px 26px}
+#app{max-width:860px;margin:0 auto;padding:14px 14px 28px;min-height:100vh;display:flex;flex-direction:column;gap:12px}
+.top{display:flex;align-items:center;gap:10px;min-height:38px}
+.bar{flex:1;height:14px;border:3px solid var(--line);border-radius:99px;background:var(--card);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.pill{border:3px solid var(--line);background:var(--card);border-radius:99px;padding:3px 12px;font-weight:800;white-space:nowrap;box-shadow:3px 3px 0 var(--shadow);font:inherit;font-weight:800;color:inherit}
+button.pill{cursor:pointer}
+.slide{background:var(--card);border:4px solid var(--line);border-radius:22px;box-shadow:7px 7px 0 var(--shadow);padding:22px 20px;display:flex;flex-direction:column;gap:14px;animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
+.tag{align-self:flex-start;background:var(--accent2);color:#fff;border-radius:99px;padding:3px 14px;font-weight:800;font-size:.9rem;border:3px solid var(--line)}
+h1{font-size:clamp(1.9rem,7vw,3rem);margin:0;line-height:1.1}
+h2{font-size:clamp(1.2rem,4.5vw,1.8rem);margin:0;line-height:1.25}
+h3{margin:0;font-size:1.2rem}
+.ko{color:var(--muted);font-weight:600}
+.big{font-size:clamp(4rem,18vw,7rem);text-align:center;line-height:1}
+button{font:inherit;color:inherit;cursor:pointer}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.opt{border:3px solid var(--line);background:var(--bg);border-radius:14px;padding:12px;font-weight:800;font-size:1.08rem;box-shadow:4px 4px 0 var(--shadow);transition:transform .08s}
+.opt:hover:not(:disabled){transform:translate(-1px,-1px)}
+.opt:active:not(:disabled){transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
+.opt.good{background:var(--good);color:#fff}.opt.bad{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.next{align-self:flex-end;border:3px solid var(--line);background:var(--accent);color:#fff;border-radius:99px;padding:10px 26px;font-weight:800;font-size:1.1rem;box-shadow:4px 4px 0 var(--shadow)}
+.next:disabled{opacity:.35;cursor:not-allowed}
+.fb{min-height:1.6em;font-weight:800;font-size:1.05rem}
+.fb.good{color:var(--good)}.fb.bad{color:var(--bad)}
+.pat{border-left:8px solid var(--accent);background:var(--bg);border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.pat b{font-size:1.12rem}
+.hl{background:var(--chip);border-radius:6px;padding:0 6px;font-weight:800}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chip{border:3px solid var(--line);background:var(--chip);border-radius:12px;padding:8px 14px;font-weight:800;font-size:1.05rem;box-shadow:3px 3px 0 var(--shadow)}
+.chip.sel{outline:4px solid var(--accent2)}.chip.done{background:var(--good);color:#fff;opacity:.55;cursor:default}
+.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.tray{min-height:62px;border:3px dashed var(--line);border-radius:14px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:8px}
+.btn2{border:3px solid var(--line);background:var(--accent2);color:#fff;border-radius:99px;padding:8px 20px;font-weight:800;box-shadow:3px 3px 0 var(--shadow)}
+.stars{font-size:3rem;text-align:center}
+.score{font-size:clamp(2.5rem,10vw,4.5rem);font-weight:900;text-align:center}
+/* menu */
+.lgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.lcard{border:4px solid var(--line);border-radius:18px;background:var(--bg);padding:16px;text-align:left;box-shadow:5px 5px 0 var(--shadow);display:flex;flex-direction:column;gap:6px}
+.lcard:hover{transform:translate(-2px,-2px)}
+.lcard .em{font-size:2.6rem}
+.lcard b{font-size:1.25rem}
+.mbtn{display:flex;align-items:center;gap:14px;border:4px solid var(--line);border-radius:18px;padding:16px;background:var(--bg);box-shadow:5px 5px 0 var(--shadow);text-align:left}
+.mbtn .em{font-size:2.4rem}.mbtn b{font-size:1.2rem;display:block}.mbtn span{color:var(--muted);font-weight:600;font-size:.9rem}
+.mbtn:hover{transform:translate(-2px,-2px)}
+/* flashcard */
+.fcard{border:4px solid var(--line);border-radius:22px;background:var(--bg);min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center;cursor:pointer;box-shadow:5px 5px 0 var(--shadow);user-select:none;animation:pop .2s ease}
+.fcard .vi{font-size:clamp(2rem,9vw,3.4rem);font-weight:900;line-height:1.15}
+.fcard .hint{color:var(--muted);font-weight:700}
+.fcard .kr{font-size:clamp(1.5rem,6vw,2.2rem);font-weight:900}
+.fbtns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fb1{border:3px solid var(--line);border-radius:16px;padding:14px;font-weight:800;font-size:1.1rem;box-shadow:4px 4px 0 var(--shadow)}
+.fb1.no{background:var(--bad);color:#fff}.fb1.yes{background:var(--good);color:#fff}
+.stat{display:flex;justify-content:space-between;font-weight:800;flex-wrap:wrap;gap:6px}
+.small{font-size:.85rem;color:var(--muted);font-weight:600}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top" id="top"></div>
+  <div id="stage"></div>
+</div>
+<script>
+"use strict";
+/* ============ TIỆN ÍCH ============ */
+const $ = s => document.querySelector(s);
+const stage = $("#stage");
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const M = (q,a,w,ex,big)=>({q,a,w,ex,big});
+const O = (s,ko)=>({s,ko});
+const mem = {};
+function store(k,v){
+  if(v===undefined){ try{ return JSON.parse(localStorage.getItem(k)||"[]"); }catch(e){ return mem[k]||[]; } }
+  try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){ mem[k]=v; }
+}
+/* Bốc đề: không lặp lại cho tới khi dùng hết ngân hàng, rồi mới xoay vòng */
+function draw(key,n,take){
+  take=Math.min(take,n);
+  let used=store(key).filter(i=>i<n);
+  const all=[...Array(n).keys()];
+  const free=all.filter(i=>!used.includes(i));
+  let pick;
+  if(free.length>=take){ pick=shuffle(free).slice(0,take); used=used.concat(pick); }
+  else { pick=free.slice(); const rest=all.filter(i=>!pick.includes(i)); pick=pick.concat(shuffle(rest).slice(0,take-pick.length)); used=pick.slice(); }
+  store(key,used);
+  return pick;
+}
+function setTop(back,game){
+  $("#top").innerHTML=(back?'<button class="pill" id="back">← Quay lại 뒤로</button>':'')+
+    (game?'<div class="bar"><i id="prog"></i></div><div class="pill" id="sc"></div>':'<div style="flex:1"></div>');
+  if(back) $("#back").onclick=back;
+}
+function wrap(html){ stage.innerHTML=`<div class="slide">${html}</div>`; window.scrollTo(0,0); }
+
+/* ============ DỮ LIỆU BÀI HỌC ============ */
+const NATS=[["Mỹ","🇺🇸"],["Anh","🇬🇧"],["Nhật","🇯🇵"],["Hàn Quốc","🇰🇷"],["Pháp","🇫🇷"],["Úc","🇦🇺"],["Đức","🇩🇪"],["Trung Quốc","🇨🇳"],["Việt","🇻🇳"]];
+const flag = n => NATS.find(x=>x[0]===n)[1];
+
+/* ---- BÀI 2 ---- */
+const B2_VOCAB=[
+ ["chào","👋","안녕하세요"],["xin lỗi","🙏","실례합니다 / 죄송합니다"],["dạ","🙇","네 (공손한 문장 첫머리)",1],["vâng","🙆","네 (대답)",1],
+ ["rất vui được gặp anh","🤝","만나서 반갑습니다"],["tên","🏷️","이름"],["người nước nào","🌏","어느 나라 사람"],
+ ["người Việt","🇻🇳","베트남 사람"],["người Mỹ","🇺🇸","미국 사람"],["người Anh","🇬🇧","영국 사람"],["người Nhật","🇯🇵","일본 사람"],
+ ["người Hàn Quốc","🇰🇷","한국 사람"],["người Pháp","🇫🇷","프랑스 사람"],["người Úc","🇦🇺","호주 사람"],["người Đức","🇩🇪","독일 사람"],
+ ["người Trung Quốc","🇨🇳","중국 사람"],["ông","👴","할아버지 / 남성 존칭"],["bà","👵","할머니 / 여성 존칭"],["anh","👨","형·오빠 / 젊은 남성"],
+ ["chị","👩","누나·언니 / 젊은 여성"],["cô","👩‍🏫","아가씨 / 젊은 여성"],["anh ấy","🧑","그 (남자)"],["cô ấy","👧","그녀"],["các anh ấy","👥","그분들 / 그들"],
+ ["đây","👇","이것 / 이분 (가까이)"],["đó","👉","그것 / 그분 (상대방 쪽)"],["kia","☝️","저것 / 저분 (멀리)"],
+ ["còn","🔄","그러면 / 반면에"],["phải không","❓","~죠? (부가의문)"],["không phải","🚫","~이/가 아니다"],["khỏe","💪","건강하다"]
+];
+const B2_GRAMMAR=[
+ {h:"1. dạ — lịch sự 공손한 말",html:`
+  <div class="pat"><b><span class="hl">Dạ</span> đứng đầu câu 문장 맨 앞에 쓰는 공손 표현</b>
+  <div>Anh là người Việt, phải không? – <span class="hl">Dạ</span>, phải.</div>
+  <div>Chị là người Nhật, phải không? – <span class="hl">Dạ</span>, không phải.</div></div>`},
+ {h:"2. …, phải không? — câu hỏi đuôi 부가의문문",html:`
+  <div class="pat"><b>S + là + N, phải không?</b>
+  <div>Anh là người Mỹ, <span class="hl">phải không</span>? 미국 사람이시죠?</div>
+  <div>✅ Phải / Vâng. Tôi là người Mỹ. · Dạ, phải. / Dạ, vâng.</div>
+  <div>❌ Không / Không phải. Tôi <span class="hl">không phải là</span> người Mỹ. Tôi là người Anh. · Dạ, không phải.</div></div>`},
+ {h:"3. Đại từ nhân xưng ngôi 3 인칭대명사",html:`
+  <div class="pat"><b>ngôi 2 + <span class="hl">ấy</span> = ngôi 3 số ít (단수 3인칭)</b>
+  <div>ông → <span class="hl">ông ấy</span> · bà → <span class="hl">bà ấy</span> · anh → <span class="hl">anh ấy</span> · chị → <span class="hl">chị ấy</span> · cô → <span class="hl">cô ấy</span></div></div>
+  <div class="pat"><b><span class="hl">các</span> + ngôi 2/3 = số nhiều (복수)</b>
+  <div>các anh · các chị · các ông · các bà · <span class="hl">các anh ấy</span> · <span class="hl">các cô ấy</span></div></div>`},
+ {h:"4. còn — và / còn thì 반면에·그러면",html:`
+  <div class="pat"><b>Tôi là người Việt. <span class="hl">Còn</span> anh?</b><div>저는 베트남 사람이에요. 당신은요?</div></div>
+  <div class="pat"><b>Cô Jane là người Mỹ, <span class="hl">còn</span> cô Marie là người Pháp.</b><div>두 사람/사물을 대비할 때 사용</div></div>`},
+ {h:"5. đây, đó, kia — chỉ định 지시어",html:`
+  <div class="pat"><b><span class="hl">đây</span> gần người nói & người nghe · <span class="hl">đó</span> xa người nói, gần người nghe · <span class="hl">kia</span> xa cả hai</b>
+  <div>Đây là anh Tom, người Mỹ. Còn kia là chị Marie, người Pháp.</div>
+  <div>Đây là cái gì? – Đó là cái ghế.</div></div>`},
+ {h:"6. Mẫu câu thường dùng 자주 쓰는 문형",html:`
+  <div class="pat"><b>S + là người nước nào?</b><div>Cô là người nước nào? – Tôi là người Nhật.</div></div>
+  <div class="pat"><b>S + tên là gì? / Tên + S + là gì?</b><div>Anh tên là gì? – Tôi tên là Nam.</div></div>
+  <div class="pat"><b>S + <span class="hl">không phải là</span> + N</b><div>Tôi không phải là Henry. 저는 Henry가 아니에요.</div></div>
+  <div class="pat"><b>Đây là ai? · Rất vui được gặp anh.</b><div>이분은 누구세요? · 만나서 반갑습니다.</div></div>`}
+];
+const B2_ROUNDS=[
+ {name:"Nhìn hình, chọn từ 그림 보고 단어 고르기",kind:"mcq",take:4,items:[
+  ["Mỹ","Ông ấy"],["Anh","Cô ấy"],["Nhật","Chị ấy"],["Hàn Quốc","Anh ấy"],["Pháp","Bà ấy"],["Úc","Cô ấy"],["Đức","Ông ấy"],["Trung Quốc","Chị ấy"],["Việt","Anh ấy"]
+ ].map(([N,P])=>M(`${P} là người ___.`,N,()=>shuffle(NATS.map(n=>n[0]).filter(x=>x!==N)).slice(0,3),`người ${N}`,flag(N)))},
+ {name:"Điền từ 빈칸 채우기",kind:"mcq",take:6,items:[
+  M("Chị là người nước ___?","nào",["gì","đâu","ai"],"người nước nào? = 어느 나라 사람?"),
+  M("Anh tên là ___?","gì",["nào","đâu","ai"],"tên là gì? = 이름이 뭐예요?"),
+  M("Anh là người Mỹ, ___ không?","phải",["có","là","đâu"],"…, phải không? = ~죠?"),
+  M("Tôi ___ phải là người Nhật.","không",["chưa","có","rất"],"không phải là = ~이 아니다"),
+  M("___, tôi là người Việt.","Dạ",["Còn","Đây","Kia"],"Dạ = 공손한 대답 시작"),
+  M("Tôi là người Việt. ___ anh?","Còn",["Dạ","Kia","Các"],"Còn anh? = 당신은요?"),
+  M("Cô Jane là người Mỹ, ___ cô Marie là người Pháp.","còn",["phải","không","các"],"còn = 대비"),
+  M("___ là anh Tom, người Mỹ.","Đây",["Anh","Các","Tên"],"đây = 가까이 있는 사람/사물"),
+  M("Anh Nam là người Việt. ___ là người Việt.","Anh ấy",["Chị ấy","Bà ấy","Các anh ấy"],"anh + ấy = anh ấy (그)"),
+  M("Bà Park là người Hàn Quốc. ___ không phải là người Nhật.","Bà ấy",["Ông ấy","Anh ấy","Các bà ấy"],"bà + ấy = bà ấy"),
+  M("Tom và John là người Anh. ___ là người Anh.","Các anh ấy",["Anh ấy","Chị ấy","Cô ấy"],"các + anh ấy = 복수"),
+  M("Đó ___ phải là anh Bình.","không",["chưa","có","rất"],"không phải là"),
+  M("Rất vui được ___ anh.","gặp",["chào","hỏi","tên"],"gặp = 만나다"),
+  M("Chị Marie là người Pháp. Chị ấy không phải ___ người Úc.","là",["còn","dạ","các"],"không phải là + N"),
+  M("Kia ___ chị Marie.","là",["phải","còn","các"],"kia là + N = 저분은 ~예요")
+ ]},
+ {name:"Hỏi – Đáp 질문과 대답",kind:"mcq",take:5,qprefix:"❓ ",items:[
+  M("Chị là người nước nào?","Tôi là người Việt.",["Tôi tên là Mary.","Đây là anh Tom.","Dạ, phải."],"hỏi quốc tịch → người + nước"),
+  M("Anh tên là gì?","Tôi tên là Tom.",["Tôi là người Mỹ.","Dạ, phải.","Anh ấy là người Anh."],"tên là gì? → Tôi tên là…"),
+  M("Đây là ai?","Đây là cô Susan, người Mỹ.",["Tôi tên là Nam.","Dạ, phải.","Tôi là người Anh."],"Đây là ai? → Đây là + tên"),
+  M("Anh Tom là người nước nào?","Anh ấy là người Anh.",["Dạ, phải.","Đây là anh Tom.","Tôi là người Anh."],"ngôi 3: anh ấy"),
+  M("Chị là người Việt, phải không?","Vâng, tôi là người Việt.",["Không, tôi là người Việt.","Dạ, không phải. Tôi là người Việt.","Tôi tên là Chi."],"phải → Vâng / Dạ, phải"),
+  M("Đó là anh Bình, phải không?","Không, đó không phải là anh Bình.",["Vâng, đó không phải là anh Bình.","Dạ, phải. Đó không phải là anh Bình.","Đây là ai?"],"không phải → Không, … không phải là …"),
+  M("Anh là người Mỹ, phải không?","Dạ, phải. Tôi là người Mỹ.",["Dạ, phải. Tôi không phải là người Mỹ.","Dạ, không phải. Tôi là người Mỹ.","Còn anh?"],"câu trả lời phải nhất quán 대답이 일관되어야 함"),
+  M("Xin lỗi, anh tên là Henry, phải không?","Dạ, không phải. Tôi tên là Tom.",["Dạ, phải. Tôi tên là Tom.","Dạ, không phải. Tôi là Henry.","Tôi là người Mỹ?"],"không phải → nói tên đúng"),
+  M("Tôi là người Việt. Còn anh?","Tôi là người Hàn Quốc.",["Dạ, phải.","Anh ấy tên là Tom.","Đây là anh Tom."],"Còn anh? = 당신은요?"),
+  M("Rất vui được gặp anh.","Chào anh. Rất vui được gặp anh.",["Dạ, không phải.","Anh là người nước nào?","Tôi tên là gì?"],"đáp lại lời chào 인사에 답하기")
+ ]},
+ {name:"Nhìn cờ 국기 보고",kind:"mcq",take:3,items:[
+  ["Hàn Quốc","Anh ấy"],["Nhật","Cô ấy"],["Pháp","Chị ấy"],["Mỹ","Ông ấy"],["Trung Quốc","Bà ấy"],["Úc","Anh ấy"],["Đức","Cô ấy"],["Anh","Ông ấy"]
+ ].map(([N,P])=>M("Nhìn cờ, chọn câu đúng 국기에 맞는 문장은?",`${P} là người ${N}.`,()=>shuffle(NATS.filter(n=>n[0]!==N)).slice(0,3).map(n=>`${P} là người ${n[0]}.`),`người ${N}`,flag(N)))},
+ {name:"Chuyển thành câu hỏi 의문문 만들기",kind:"mcq",take:3,items:[
+  "Cô ấy tên là Chi.","Các anh ấy khỏe.","Đây là anh Thomas.","Các cô ấy là người Úc.","Bà Mai là người Trung Quốc."
+ ].map(s=>{const b=s.replace(/\.$/,""); return M("Chuyển thành câu hỏi 의문문으로: "+s,b+", phải không?",[b+" không phải?","Phải không "+b+"?",b+" phải, không?"],"S, phải không? = ~죠?");})},
+ {name:"Chuyển thành câu phủ định 부정문 만들기",kind:"mcq",take:3,items:[
+  ["Chị Yoko","người Mỹ"],["Anh Peter","người Pháp"],["Tên tôi","John"],["Tên bà ấy","Loan"],["Cô Mai","người Nhật"],["Anh Nam","người Việt"]
+ ].map(([s,r])=>M(`Chuyển thành câu phủ định 부정문으로: ${s} là ${r}.`,`${s} không phải là ${r}.`,[`${s} không là ${r}.`,`${s} là không phải ${r}.`,`${s} phải không là ${r}.`],"không phải là = ~이/가 아니다"))},
+ {name:"Nối câu bằng “còn” 'còn'으로 문장 잇기",kind:"mcq",take:2,items:[
+  M("Nối hai câu bằng “còn”: Anh Nam là người Việt. Anh Peter là người Mỹ.","Anh Nam là người Việt, còn anh Peter là người Mỹ.",["Anh Nam là người Việt còn, anh Peter là người Mỹ.","Còn anh Nam là người Việt, anh Peter là người Mỹ.","Anh Nam là người Việt, anh Peter còn là người Mỹ."],"A, còn B = A 반면 B"),
+  M("Nối hai câu bằng “còn”: Đây là anh John, người Mỹ. Kia là anh Kim, người Hàn Quốc.","Đây là anh John, người Mỹ, còn kia là anh Kim, người Hàn Quốc.",["Đây là anh John, người Mỹ, kia còn là anh Kim, người Hàn Quốc.","Còn đây là anh John, người Mỹ, kia là anh Kim, người Hàn Quốc.","Đây là anh John, người Mỹ còn, kia là anh Kim, người Hàn Quốc."],"đây … còn kia …"),
+  M("Nối hai câu bằng “còn”: Cô Mai khỏe. Cô Hanako không khỏe.","Cô Mai khỏe, còn cô Hanako không khỏe.",["Cô Mai khỏe còn, cô Hanako không khỏe.","Còn cô Mai khỏe, cô Hanako không khỏe.","Cô Mai khỏe, cô còn Hanako không khỏe."],"còn đứng trước chủ ngữ thứ hai"),
+  M("Nối hai câu bằng “còn”: Đây là bà Li, người Trung Quốc. Đây là cô Yoshiko, người Nhật.","Đây là bà Li, người Trung Quốc, còn đây là cô Yoshiko, người Nhật.",["Đây là bà Li, người Trung Quốc, đây còn là cô Yoshiko, người Nhật.","Còn đây là bà Li, người Trung Quốc, đây là cô Yoshiko, người Nhật.","Đây là bà Li, người Trung Quốc còn, đây là cô Yoshiko, người Nhật."],"còn đây = 그리고 이분은"),
+  M("Nối hai câu bằng “còn”: Tôi là người Hàn Quốc. Chị là người nước nào?","Tôi là người Hàn Quốc. Còn chị là người nước nào?",["Tôi là người Hàn Quốc. Chị còn là người nước nào?","Tôi còn là người Hàn Quốc. Chị là người nước nào?","Còn tôi là người Hàn Quốc. Chị là người nước nào?"],"Còn chị …? = 당신은요?")
+ ]},
+ {name:"Sắp xếp câu 문장 배열",kind:"order",take:4,items:[
+  O("Anh là người Đức, phải không?","독일 사람이시죠?"),O("Xin lỗi, bà là người nước nào?","실례지만 어느 나라 분이세요?"),O("Anh tên là gì?","이름이 뭐예요?"),
+  O("Tôi là người Hàn Quốc.","저는 한국 사람이에요."),O("Bà ấy không phải là người Nhật.","그분은 일본 사람이 아니에요."),O("Đây là anh Tom, người Mỹ.","이분은 미국 사람 Tom 씨예요."),
+  O("Tôi tên là Tom Scott.","제 이름은 Tom Scott이에요."),O("Chị ấy không phải là người Pháp.","그녀는 프랑스 사람이 아니에요."),O("Các anh ấy là người Anh.","그분들은 영국 사람이에요."),
+  O("Tôi là người Việt, còn anh?","저는 베트남 사람이에요. 당신은요?")
+ ]}
+];
+
+/* ---- BÀI 3 ---- */
+const B3_VOCAB=[
+  ["sinh viên","🎓","대학생"],["bác sĩ","🩺","의사"],["kỹ sư","👷","엔지니어"],["giáo viên","👩‍🏫","교사"],
+  ["ca sĩ","🎤","가수"],["tài xế","🚕","운전기사"],["thư ký","🗂️","비서"],["nội trợ","🍳","주부"],
+  ["nhân viên","🧑‍💼","직원"],["bệnh viện","🏥","병원"],["sân bay","✈️","공항"],["trường","🏫","학교"],
+  ["công ty","🏢","회사"],["nhà","🏠","집"],["tiếng Việt","🇻🇳","베트남어"],
+  ["làm","💼","하다 / 일하다"],["học","📚","공부하다"],["chơi","🎮","놀다"]
+];
+const B3_GRAMMAR=[
+ {h:"1. Hỏi nghề nghiệp 직업 묻기",html:`
+  <div class="pat"><b>S + làm nghề gì?</b><div>Anh ấy <span class="hl">làm nghề gì</span>? → Anh ấy làm bác sĩ. / Anh ấy <span class="hl">là</span> bác sĩ.</div><div class="ko">직업을 말할 때 “làm” 대신 “là” 사용 가능</div></div>`},
+ {h:"2. đi / ở / về + đâu",html:`
+  <div class="pat"><b>S + đi / ở / về + đâu?</b>
+  <div>Bà <span class="hl">đi đâu</span>? → Tôi đi bệnh viện.</div>
+  <div>Bà <span class="hl">ở đâu</span>? → Tôi ở nhà.</div>
+  <div>Bà <span class="hl">về đâu</span>? → Tôi về nhà.</div></div>
+  <div class="pat"><b>ở = động từ “있다” / giới từ “~에서”</b><div>Xe hơi <span class="hl">ở</span> đằng kia. (있다) · Tôi sống <span class="hl">ở</span> Quận 3. (~에)</div></div>`},
+ {h:"3. đi làm / đi học / đi chơi",html:`
+  <div class="pat"><b>S + đi làm / đi học / đi chơi</b>
+  <div>Cô ấy <span class="hl">đi làm</span>. 출근해요.</div><div>Cô ấy <span class="hl">đi học</span>. 학교 가요.</div><div>Cô ấy <span class="hl">đi chơi</span>. 놀러 가요.</div></div>`},
+ {h:"4. đấy — trợ từ cuối câu 문장 끝 조사",html:`
+  <div class="pat"><b>S + đi đâu / làm gì / học gì + <span class="hl">đấy</span>?</b>
+  <div>Anh <span class="hl">đi đâu</span> đấy? · Anh <span class="hl">làm gì</span> đấy? · Anh <span class="hl">học gì</span> đấy?</div>
+  <div class="ko">지금 진행 중인 동작을 묻는 어감. đó / vậy / thế 로 교체 가능</div></div>`},
+ {h:"5. đang + V — đang diễn ra 진행형",html:`
+  <div class="pat"><b>S + <span class="hl">đang</span> + động từ</b>
+  <div>Tôi <span class="hl">đang</span> ăn cơm. 밥 먹고 있어요.</div>
+  <div>Chị <span class="hl">đang</span> đợi ai đấy? 누구를 기다리고 있어요?</div>
+  <div>Các anh ấy <span class="hl">đang</span> học tiếng Việt.</div></div>`},
+ {h:"6. ạ — lịch sự 존댓말",html:`
+  <div class="pat"><b>Câu + <span class="hl">ạ</span></b><div>Chào ông <span class="hl">ạ</span>. · Ông có mệt không <span class="hl">ạ</span>?</div><div class="ko">문장 끝에 붙여 공손·존경·친근함을 표현</div></div>`}
+];
+const B3_ROUNDS=[
+ {name:"Nhìn hình, chọn từ 그림 보고 단어 고르기",kind:"mcq",take:6,items:(()=>{
+  const JOBS=["sinh viên","bác sĩ","kỹ sư","giáo viên","ca sĩ","tài xế","thư ký","nội trợ","nhân viên"];
+  const PLACES=["bệnh viện","sân bay","trường","công ty","nhà"];
+  const KO={"sinh viên":"대학생","bác sĩ":"의사","kỹ sư":"엔지니어","giáo viên":"교사","ca sĩ":"가수","tài xế":"운전기사","thư ký":"비서","nội trợ":"주부","bệnh viện":"병원","sân bay":"공항","trường":"학교","công ty":"회사","nhà":"집"};
+  const jobs=[["Cô ấy","🎓","sinh viên"],["Anh ấy","🩺","bác sĩ"],["Anh ấy","👷","kỹ sư"],["Cô ấy","👩‍🏫","giáo viên"],["Anh ấy","🎤","ca sĩ"],["Anh ấy","🚕","tài xế"],["Cô ấy","🗂️","thư ký"],["Bà ấy","🍳","nội trợ"]]
+   .map(([P,e,a])=>M(`${P} là ___.`,a,()=>shuffle(JOBS.filter(x=>x!==a)).slice(0,3),`${a} = ${KO[a]}`,e));
+  const places=[["Tôi đi ___.","✈️","sân bay"],["Em ấy đi học ở ___.","🏫","trường"],["Chị ấy làm việc ở ___.","🏢","công ty"],["Bà ấy ở ___.","🏠","nhà"],["Ông ấy làm việc ở ___.","🏥","bệnh viện"]]
+   .map(([q,e,a])=>M(q,a,()=>shuffle(PLACES.filter(x=>x!==a)).slice(0,3),`${a} = ${KO[a]}`,e));
+  return jobs.concat(places);
+ })()},
+ {name:"Điền từ 빈칸 채우기",kind:"mcq",take:6,items:[
+  M("Anh ấy ___ nghề gì?","làm",["đi","ở","chơi"],"làm nghề gì? = 무슨 일을 해요?"),
+  M("Tôi ___ bác sĩ. (làm = là)","là",["đi","học","chơi"],"Tôi là bác sĩ. = Tôi làm bác sĩ."),
+  M("Bà đi ___?","đâu",["gì","ai","nào"],"đi đâu? = 어디 가요?"),
+  M("Dạo này tôi ___ nhà, làm nội trợ.","ở",["đi","học","chơi"],"ở nhà = 집에 있다"),
+  M("Chị ấy đến công ty, chị ấy đi ___.","làm",["học","chơi","ở"],"đi làm = 출근하다"),
+  M("Em tôi là sinh viên. Em đi ___ ở trường.","học",["làm","chơi","về"],"đi học = 학교 가다"),
+  M("Cuối tuần, cô ấy đi ___ với bạn.","chơi",["làm","học","ở"],"đi chơi = 놀러 가다"),
+  M("Anh đi đâu ___?","đấy",["ạ","không","phải"],"đấy = 진행 중 동작을 묻는 조사"),
+  M("Chào ông ___.","ạ",["đấy","đang","gì"],"ạ = 공손"),
+  M("Ông ấy là kỹ sư. Ông ấy làm việc ___ công ty.","ở",["đi","đang","chơi"],"làm việc ở + nơi chốn"),
+  M("Tôi ___ học tiếng Việt.","đang",["ở","đấy","là"],"đang + V"),
+  M("Anh ___ làm gì đấy?","đang",["ở","là","ạ"],"đang làm gì đấy? = 지금 뭐 해요?"),
+  M("Xe hơi ___ đằng kia.","ở",["là","làm","đang"],"ở = 있다 (존재)"),
+  M("Ông có mệt không ___?","ạ",["đấy","gì","đâu"],"…không ạ? = 공손한 의문")
+ ]},
+ {name:"Hỏi – Đáp 질문과 대답",kind:"mcq",take:5,qprefix:"❓ ",items:[
+  M("Cô ấy làm nghề gì?","Cô ấy là ca sĩ.",["Cô ấy ở bệnh viện.","Cô ấy đi sân bay.","Cô ấy đang ăn cơm."],"hỏi nghề → trả lời nghề"),
+  M("Bà đi đâu?","Tôi đi bệnh viện.",["Tôi là bác sĩ.","Tôi đang học.","Tôi làm nghề gì?"],"đi đâu? → đi + nơi chốn"),
+  M("Anh làm việc ở đâu?","Tôi làm việc ở công ty.",["Tôi là kỹ sư.","Tôi đi học.","Tôi đang ăn cơm."],"ở đâu? → ở + nơi chốn"),
+  M("Anh đang học gì đấy?","Tôi đang học tiếng Việt.",["Tôi đi bệnh viện.","Tôi là sinh viên.","Tôi ở nhà."],"học gì? → học + môn học"),
+  M("Anh làm gì đấy?","Tôi đang ăn cơm.",["Tôi là tài xế.","Tôi ở trường.","Tôi đi sân bay."],"làm gì đấy? → đang + V"),
+  M("Dạo này anh làm gì?","Dạo này tôi làm nội trợ.",["Tôi tên là Thủy.","Tôi là người Mỹ.","Xe hơi ở đằng kia."],"Dạo này anh làm gì? = 요즘 뭐 하세요?"),
+  M("Chị đang đợi ai đấy?","Tôi đang đợi ông Baker.",["Tôi đang học tiếng Việt.","Tôi là thư ký.","Tôi đi làm."],"đợi ai? → đợi + người"),
+  M("Ông ấy là giáo viên, phải không?","Không phải. Ông ấy là kỹ sư.",["Dạ, phải. Ông ấy là kỹ sư.","Tôi đang ăn cơm.","Ông ấy đi đâu đấy?"],"phải không? → Dạ, phải / không phải"),
+  M("Xe hơi ở đâu?","Xe hơi ở đằng kia.",["Tôi đi sân bay.","Xe hơi là tài xế.","Xe hơi đang học."],"ở đâu? → ở đằng kia"),
+  M("Ông có mệt không ạ?","Không. Cảm ơn cô nhiều.",["Tôi tên là Thủy.","Tôi là kỹ sư.","Tôi đi học."],"có … không? → Có / Không"),
+  M("Cô Mai làm việc ở đâu?","Cô ấy làm việc ở Bưu điện Thành phố.",["Cô ấy đang ăn cơm.","Cô ấy đi học.","Cô ấy là tài xế."],"làm việc ở đâu? → ở + nơi chốn")
+ ]},
+ {name:"Nhìn hình 그림 보고 (đang + V)",kind:"mcq",take:4,qprefix:"",items:[
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Anh ấy đang ăn cơm.",["Anh ấy là kỹ sư.","Anh ấy đi sân bay.","Anh ấy ở nhà."],"đang + ăn cơm","🍚"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Các anh ấy đang học tiếng Việt.",["Các anh ấy là bác sĩ.","Các anh ấy đi chơi.","Các anh ấy ở trường."],"đang + học","📚"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Cô ấy đang làm việc.",["Cô ấy là ca sĩ.","Cô ấy về nhà.","Cô ấy đang chơi."],"đang + làm việc","💻"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Tôi đang đợi ông Baker.",["Tôi là tài xế.","Tôi đi học.","Tôi ở bệnh viện."],"đang + đợi","🚕⏳"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Chúng tôi đang chơi.",["Chúng tôi là sinh viên.","Chúng tôi đi làm.","Chúng tôi ở công ty."],"đang + chơi","🎮"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Em ấy đang đi học.",["Em ấy là bác sĩ.","Em ấy đang ăn cơm.","Em ấy ở nhà."],"đang + đi học","🎒🏫"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Chị ấy đang đi làm.",["Chị ấy là sinh viên.","Chị ấy ở trường.","Chị ấy đang chơi."],"đang + đi làm","👩‍💼🏢"),
+  M("Chọn câu đúng với hình 그림에 맞는 문장은?","Bà ấy đang ở nhà.",["Bà ấy là tài xế.","Bà ấy đi sân bay.","Bà ấy là bác sĩ."],"đang + ở nhà","🏠👵")
+ ]},
+ {name:"Sắp xếp câu 문장 배열",kind:"order",take:4,items:[
+  O("Dạo này anh làm gì?","요즘 뭐 하세요?"),O("Cô ấy đi học ở trường.","그녀는 학교에 공부하러 가요."),O("Tôi đang học tiếng Việt.","저는 베트남어를 공부하고 있어요."),
+  O("Bà ấy là bác sĩ ở bệnh viện.","그분은 병원의 의사예요."),O("Anh ấy đang đi làm ở công ty.","그는 회사에서 일하고 있어요."),O("Tôi đến đón ông James Baker.","저는 James Baker 씨를 마중하러 왔어요."),
+  O("Xe hơi đang chờ ông ở đằng kia.","차가 저쪽에서 선생님을 기다리고 있어요."),O("Anh làm nghề gì?","무슨 일을 하세요?"),O("Chị đang đợi ai đấy?","누구를 기다리고 있어요?"),O("Cô ấy làm việc ở sân bay.","그녀는 공항에서 일해요.")
+ ]}
+];
+
+const LESSONS=[
+ {id:"b2",no:2,title:"Cô là người nước nào?",ko:"어느 나라 사람이세요?",em:"🌏",vocab:B2_VOCAB,grammar:B2_GRAMMAR,rounds:B2_ROUNDS},
+ {id:"b3",no:3,title:"Dạo này anh làm gì?",ko:"요즘 뭐 하세요?",em:"💼",vocab:B3_VOCAB,grammar:B3_GRAMMAR,rounds:B3_ROUNDS}
+];
+/* Thêm bài mới: thêm một object vào LESSONS với vocab / grammar / rounds tương tự. */
+
+/* ============ MÀN HÌNH ============ */
+function home(){
+  setTop(null,false);
+  wrap(`<div class="tag">Tiếng Việt ↔ 한국어</div>
+  <h1>Ôn tập tiếng Việt 🇻🇳</h1><h2 class="ko">베트남어 복습 · Chọn bài học 과를 고르세요</h2>
+  <div class="lgrid">${LESSONS.map(L=>`<button class="lcard" data-id="${L.id}"><div class="em">${L.em}</div><span class="small">Bài ${L.no}</span><b>${L.title}</b><span class="ko">${L.ko}</span></button>`).join("")}</div>`);
+  stage.querySelectorAll(".lcard").forEach(b=>b.onclick=()=>lessonMenu(LESSONS.find(l=>l.id===b.dataset.id)));
+}
+const bankSize = L => L.rounds.reduce((s,r)=>s+r.items.length,0);
+function lessonMenu(L){
+  setTop(home,false);
+  wrap(`<div class="tag">Bài ${L.no}</div><h1>${L.title}</h1><h2 class="ko">${L.ko}</h2>
+  <div class="col">
+   <button class="mbtn" id="m1"><div class="em">🃏</div><div><b>낱말 · Flashcard</b><span>${L.vocab.length} từ · 단어 카드</span></div></button>
+   <button class="mbtn" id="m2"><div class="em">📖</div><div><b>Ngữ pháp 문법</b><span>${L.grammar.length} mục · 문법·문형 정리</span></div></button>
+   <button class="mbtn" id="m3"><div class="em">🎮</div><div><b>Game 게임</b><span>Ngân hàng ${bankSize(L)} câu · 매번 새로운 문제</span></div></button>
+  </div>
+  <button class="pill" id="rs" style="align-self:flex-start;font-size:.85rem">🔄 Làm mới ngân hàng đề 문제 은행 초기화</button>
+  <div class="small" id="rsmsg"></div>`);
+  $("#m1").onclick=()=>flash(L); $("#m2").onclick=()=>gram(L); $("#m3").onclick=()=>startGame(L);
+  $("#rs").onclick=()=>{ L.rounds.forEach((r,i)=>store(L.id+":"+i,[])); $("#rsmsg").textContent="Đã làm mới: các câu hỏi có thể xuất hiện lại. 초기화 완료!"; };
+}
+
+/* ---- Ngữ pháp ---- */
+function gram(L){
+  setTop(()=>lessonMenu(L),false);
+  wrap(`<div class="tag">Bài ${L.no} · Ngữ pháp 문법</div>${L.grammar.map(g=>`<h3>${g.h}</h3>${g.html}`).join("")}
+  <button class="next" id="g">Chơi game 🎮 게임하기</button>`);
+  $("#g").onclick=()=>startGame(L);
+}
+
+/* ---- Flashcard (낱말) ---- */
+function flash(L){
+  setTop(()=>lessonMenu(L),false);
+  const total=L.vocab.length;
+  let queue=shuffle([...Array(total).keys()]), known=0, flipped=false;
+  function paint(){
+    if(!queue.length){
+      wrap(`<div class="tag">Bài ${L.no} · 낱말 Flashcard</div><div class="stars">🎉</div><h2 style="text-align:center">Bạn đã nhớ hết ${total} từ! 모든 단어를 외웠어요!</h2>
+      <div class="row" style="justify-content:center"><button class="btn2" id="again">Học lại 다시 학습 🔁</button></div>`);
+      $("#again").onclick=()=>flash(L); return;
+    }
+    const v=L.vocab[queue[0]];
+    wrap(`<div class="tag">Bài ${L.no} · 낱말 Flashcard</div>
+    <div class="stat"><span>✅ Nhớ rồi 외움: ${known}/${total}</span><span>📥 Còn lại 남음: ${queue.length}</span></div>
+    <div class="fcard" id="card">${flipped
+      ?`<div class="big">${v[1]}</div><div class="kr">${v[2]}</div><div class="hint">${v[0]}</div>`
+      :`<div class="vi">${v[0]}</div><div class="hint">👆 Nhấp để xem nghĩa · 눌러서 뜻 보기</div>`}</div>
+    <div class="fbtns"><button class="fb1 no" id="no">Chưa 😅<br><small>아직</small></button><button class="fb1 yes" id="yes">Nhớ rồi 😎<br><small>외웠어요</small></button></div>`);
+    $("#card").onclick=()=>{ flipped=!flipped; paint(); };
+    $("#no").onclick=()=>{ queue.push(queue.shift()); flipped=false; paint(); };
+    $("#yes").onclick=()=>{ queue.shift(); known++; flipped=false; paint(); };
+  }
+  paint();
+}
+
+/* ---- Game ---- */
+let G=null;
+function buildGame(L){
+  const sl=[];
+  const pool=shuffle(L.vocab.filter(v=>!v[3]));
+  for(let i=0;i<3;i++) sl.push({t:"match",tag:`Vòng 1 · Nối cặp 짝 맞추기 (${i+1}/3)`,pairs:pool.slice(i*6,i*6+6).map(v=>[v[0],v[2]])});
+  L.rounds.forEach((r,ri)=>{
+    const idx=draw(L.id+":"+ri,r.items.length,r.take);
+    idx.forEach(i=>{
+      const it=r.items[i], tag=`Vòng ${ri+2} · ${r.name}`;
+      if(r.kind==="order"){
+        const toks=it.s.replace(/[?.]$/,"").split(" ");
+        sl.push({t:"order",tag,ans:it.s,ko:it.ko,toks:shuffle(toks)});
+      } else {
+        const w=typeof it.w==="function"?it.w():it.w;
+        sl.push({t:"mcq",tag,q:(r.qprefix||"")+it.q,big:it.big,opts:shuffle([it.a,...w]),a:it.a,ex:it.ex});
+      }
+    });
+  });
+  sl.push({t:"result"});
+  return sl;
+}
+function startGame(L){
+  setTop(()=>lessonMenu(L),true);
+  const slides=buildGame(L);
+  let max=0; slides.forEach(s=>{ if(s.t==="mcq"||s.t==="order") max+=1; if(s.t==="match") max+=s.pairs.length; });
+  G={L,slides,idx:0,score:0,max,locked:false};
+  gRender();
+}
+function gScore(){ $("#sc").textContent="⭐ "+G.score+" / "+G.max; $("#prog").style.width=(G.idx/(G.slides.length-1)*100)+"%"; }
+function gRender(){ G.locked=false; gScore(); const s=G.slides[G.idx]; ({mcq:gMcq,match:gMatch,order:gOrder,result:gResult})[s.t](s); }
+const nextBtn=()=>`<button class="next" id="nx" disabled>Tiếp 다음 ▶</button>`;
+function gWrap(html){ wrap(html); const n=$("#nx"); if(n) n.onclick=()=>{G.idx++; gRender();}; }
+
+function gMcq(s){
+  gWrap(`<div class="tag">${s.tag}</div>${s.big?`<div class="big">${s.big}</div>`:""}<h2>${s.q}</h2>
+  <div class="opts">${s.opts.map(o=>`<button class="opt">${o}</button>`).join("")}</div><div class="fb" id="fb"></div>${nextBtn()}`);
+  const bs=[...stage.querySelectorAll(".opt")];
+  bs.forEach(b=>b.onclick=()=>{
+    if(G.locked) return; G.locked=true;
+    const ok=b.textContent===s.a;
+    bs.forEach(x=>{x.disabled=true; if(x.textContent===s.a) x.classList.add("good");});
+    if(ok){G.score++; $("#fb").className="fb good"; $("#fb").textContent="✅ Chính xác! 정답! "+(s.ex||"");}
+    else{b.classList.add("bad"); $("#fb").className="fb bad"; $("#fb").textContent="❌ Chưa đúng 오답 — "+(s.ex||"");}
+    gScore(); $("#nx").disabled=false;
+  });
+}
+/* Matching: KHÔNG có hình, chỉ chữ */
+function gMatch(s){
+  const L=shuffle(s.pairs.map(p=>p[0])), R=shuffle(s.pairs.map(p=>p[1]));
+  gWrap(`<div class="tag">${s.tag}</div><h2>Nối từ tiếng Việt với nghĩa tiếng Hàn<br><span class="ko">베트남어와 한국어 뜻을 연결하세요</span></h2>
+  <div class="cols"><div class="col" id="L">${L.map(x=>`<button class="chip" data-v="${x}">${x}</button>`).join("")}</div>
+  <div class="col" id="R">${R.map(x=>`<button class="chip" data-v="${x}">${x}</button>`).join("")}</div></div>
+  <div class="fb" id="fb"></div>${nextBtn()}`);
+  const map=Object.fromEntries(s.pairs);
+  let sel=null, done=0, miss=0;
+  stage.querySelectorAll("#L .chip").forEach(b=>b.onclick=()=>{
+    if(b.classList.contains("done")) return;
+    stage.querySelectorAll("#L .chip").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); sel=b;
+  });
+  stage.querySelectorAll("#R .chip").forEach(b=>b.onclick=()=>{
+    if(!sel||b.classList.contains("done")) return;
+    if(map[sel.dataset.v]===b.dataset.v){
+      sel.classList.remove("sel"); sel.classList.add("done"); b.classList.add("done"); sel=null; done++;
+      if(done===s.pairs.length){ const g=Math.max(0,s.pairs.length-miss); G.score+=g; $("#fb").className="fb good"; $("#fb").textContent=`🎉 Xong! +${g} ⭐ (sai ${miss} lần)`; gScore(); $("#nx").disabled=false; }
+    } else { miss++; const a=sel; a.classList.add("shake"); b.classList.add("shake"); setTimeout(()=>{a.classList.remove("shake");b.classList.remove("shake")},300); }
+  });
+}
+function gOrder(s){
+  gWrap(`<div class="tag">${s.tag}</div><h2>Xếp các từ thành câu đúng<br><span class="ko">${s.ko}</span></h2>
+  <div class="tray" id="tray"></div><div class="row" id="pool">${s.toks.map((t,i)=>`<button class="chip" data-i="${i}">${t}</button>`).join("")}</div>
+  <div class="row"><button class="btn2" id="chk">Kiểm tra 확인</button><button class="btn2" id="rst" style="background:var(--muted)">Làm lại 다시</button></div>
+  <div class="fb" id="fb"></div>${nextBtn()}`);
+  const tray=$("#tray"), pool=$("#pool"); let used=[];
+  function paint(){
+    tray.innerHTML=used.map(i=>`<button class="chip" data-i="${i}">${s.toks[i]}</button>`).join("");
+    pool.querySelectorAll(".chip").forEach(c=>{c.style.visibility=used.includes(+c.dataset.i)?"hidden":"visible";});
+    tray.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ if(G.locked) return; used=used.filter(i=>i!==+c.dataset.i); paint(); });
+  }
+  pool.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ if(G.locked) return; used.push(+c.dataset.i); paint(); });
+  $("#rst").onclick=()=>{ if(G.locked) return; used=[]; paint(); $("#fb").textContent=""; };
+  $("#chk").onclick=()=>{
+    if(G.locked) return;
+    const got=used.map(i=>s.toks[i]).join(" "), want=s.ans.replace(/[?.]$/,"");
+    if(got===want){ G.locked=true; G.score++; $("#fb").className="fb good"; $("#fb").textContent="✅ "+s.ans; gScore(); $("#nx").disabled=false; }
+    else { $("#fb").className="fb bad"; $("#fb").textContent="❌ Thử lại nhé! 다시 해보세요"; tray.classList.add("shake"); setTimeout(()=>tray.classList.remove("shake"),300); }
+  };
+  paint();
+}
+function gResult(){
+  const p=G.score/G.max;
+  const msg=p>=.9?["🏆","Xuất sắc! 최고예요!"]:p>=.7?["🌟","Giỏi lắm! 잘했어요!"]:p>=.5?["👍","Khá tốt! 좋아요!"]:["💪","Cố lên! 조금만 더 힘내요!"];
+  $("#prog").style.width="100%";
+  wrap(`<div class="tag">Kết quả 결과 · Bài ${G.L.no}</div><div class="stars">${msg[0]}</div><div class="score">${G.score} / ${G.max}</div><h2 style="text-align:center">${msg[1]}</h2>
+  <div class="row" style="justify-content:center"><button class="btn2" id="again">Chơi lại với đề mới 새 문제로 다시 🔁</button><button class="btn2" id="menu" style="background:var(--muted)">Về menu 메뉴</button></div>`);
+  $("#again").onclick=()=>startGame(G.L); $("#menu").onclick=()=>lessonMenu(G.L);
+}
+
+home();
+</script>
+</body>
+</html>
